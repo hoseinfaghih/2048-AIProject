@@ -1,6 +1,8 @@
 package core;
 
 import ai.BFS;
+import ai.DFS;
+import ai.IDS;
 import model.Board;
 import model.Node;
 
@@ -31,14 +33,18 @@ public class main {
         int[][] cells = mapper.createCells(board, rows, columns);
         Board gameBoard = mapper.createBoard(cells, goalValue, rows, columns);
         Board.mode = Constants.MODE_NORMAL;
-        System.out.println(gameBoard.toString());
+        //System.out.println(gameBoard.toString());
 
-        Hashtable<String, Boolean> initHash = new Hashtable<>();
+        //Hashtable<Node, Boolean> hashtable = new Hashtable<>();
         Node start = new Node(gameBoard, null, NONE);
-//        BFS bfs = new BFS();
+
 //        DFS dfs = new DFS();
 //        dfs.search(start);
-        BFS bfs = new BFS();
-        bfs.search(start);
+
+//        BFS bfs = new BFS();
+//        bfs.search(start);
+
+        IDS ids = new IDS();
+        ids.search(start);
     }
 }
