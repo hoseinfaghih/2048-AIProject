@@ -27,7 +27,11 @@ public class DFS {
                 search(child);
             }
         }
-
+        hashtable.remove(startNode.hash());
+        if (hashtable.isEmpty()){
+            System.out.println("no solution");
+            return;
+        }
     }
 
     public void printResult (Node node, int depthCounter){
@@ -36,7 +40,7 @@ public class DFS {
             return;
         }
         System.out.println(node.toString());
-        node.drawState();
+        node.drawState(false);
         printResult(node.getParent(), depthCounter + 1);
     }
 }

@@ -8,13 +8,17 @@ import java.util.ArrayList;
 public class IDS {
     boolean goalFind = false;
     Hashtable<String,Boolean> hashtable = new Hashtable<>();
-    public void search (Node startNode){
-        for (int cutoff=0;;cutoff++){
+    public void search (Node startNode , int cutOff){
+        for (int i = 0; i <= cutOff ;i++){
             hashtable.clear();
-            dfsWithDepth(startNode,0,cutoff);
+            dfsWithDepth(startNode,0,i);
             if (goalFind){
                 break;
             }
+        }
+        if (!goalFind) {
+            System.out.println("no solution");
+            return;
         }
     }
     public void dfsWithDepth (Node startNode ,int depth , int maxDepth){
@@ -34,6 +38,7 @@ public class IDS {
                 dfsWithDepth(child,depth+1,maxDepth);
             }
         }
+        hashtable.remove(startNode.hash());
     }
     public void printResult (Node node, int depthCounter){
         if (node.getParent() == null) {
@@ -41,7 +46,7 @@ public class IDS {
             return;
         }
         System.out.println(node.toString());
-        node.drawState();
+        node.drawState(false);
         printResult(node.getParent(), depthCounter + 1);
     }
 }

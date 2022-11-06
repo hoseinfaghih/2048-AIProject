@@ -1,8 +1,6 @@
 package core;
 
-import ai.BFS;
-import ai.DFS;
-import ai.IDS;
+import ai.*;
 import model.Board;
 import model.Node;
 
@@ -36,7 +34,7 @@ public class main {
         //System.out.println(gameBoard.toString());
 
         //Hashtable<Node, Boolean> hashtable = new Hashtable<>();
-        Node start = new Node(gameBoard, null, NONE);
+        Node start = new Node(gameBoard, null, NONE,0);
 
 //        DFS dfs = new DFS();
 //        dfs.search(start);
@@ -44,7 +42,11 @@ public class main {
 //        BFS bfs = new BFS();
 //        bfs.search(start);
 
-        IDS ids = new IDS();
-        ids.search(start);
+//        int estimatedCutoff = (rows + columns) * 2;
+//        IDS ids = new IDS();
+//        ids.search(start , estimatedCutoff);
+
+        UCS ucs = new UCS();
+        ucs.search(start);
     }
 }
