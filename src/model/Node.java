@@ -89,15 +89,17 @@ public class Node implements Comparable<Node>{
                     minimum = Math.min(minimum,this.board.cells[i][j]);
                 }
             }
-            int x = this.board.goalValue;
+            int x = 1;
             int result = 0;
-            while (result < this.board.goalValue){
+            while (x < this.board.goalValue){
                 result++;
                 x*=2;
             }
             return result;
         }
         else{
+            System.out.println("man injam");
+            this.drawState(false);
             ArrayList<Integer> numbers = new ArrayList<Integer>();
             for (int i = 0; i < this.board.row; i++) {
                 for (int j = 0; j < this.board.col; j++) {
@@ -107,6 +109,7 @@ public class Node implements Comparable<Node>{
             Collections.sort(numbers);
             int sum = 0,x = 0;
             for (int i = numbers.size() - 1 , j = 1; i >= 0; i--,j++) {
+                System.out.print(numbers.get(i) + " ");
                 sum += numbers.get(i);
                 if (sum >= this.board.goalValue) {
                     x = j;
@@ -114,6 +117,7 @@ public class Node implements Comparable<Node>{
                 }
             }
             int y = (int)Math.sqrt(x);
+            System.out.println("this is x  : "+x + " and this is y : " + y);
             if (y * y == x){
                 return 2*(y-1);
             }

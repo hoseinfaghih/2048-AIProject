@@ -23,7 +23,7 @@ public class GBFS {
                 printResult(temp, 0, temp.pathCost());
                 return;
             }
-            hashtable.remove(temp.hash());
+            //hashtable.remove(temp.hash());
 
             ArrayList<Node> children = temp.successor(false);
             for (Node child : children) {
@@ -36,7 +36,7 @@ public class GBFS {
     }
     public void printResult (Node node, int depthCounter,int costpass){
         if (node.getParent() == null) {
-            System.out.println("problem solved at a depth of  : " + depthCounter);
+            System.out.println("problem solved at a depth of  : " + depthCounter + " and cost of : " + costpass);
             return;
         }
         System.out.println(node.toString());
