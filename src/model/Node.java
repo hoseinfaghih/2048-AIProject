@@ -98,8 +98,8 @@ public class Node implements Comparable<Node>{
             return result;
         }
         else{
-            System.out.println("man injam");
-            this.drawState(false);
+//            System.out.println("man injam");
+//            this.drawState(false);
             ArrayList<Integer> numbers = new ArrayList<Integer>();
             for (int i = 0; i < this.board.row; i++) {
                 for (int j = 0; j < this.board.col; j++) {
@@ -109,7 +109,7 @@ public class Node implements Comparable<Node>{
             Collections.sort(numbers);
             int sum = 0,x = 0;
             for (int i = numbers.size() - 1 , j = 1; i >= 0; i--,j++) {
-                System.out.print(numbers.get(i) + " ");
+                //System.out.print(numbers.get(i) + " ");
                 sum += numbers.get(i);
                 if (sum >= this.board.goalValue) {
                     x = j;
@@ -117,7 +117,7 @@ public class Node implements Comparable<Node>{
                 }
             }
             int y = (int)Math.sqrt(x);
-            System.out.println("this is x  : "+x + " and this is y : " + y);
+//            System.out.println("this is x  : "+x + " and this is y : " + y);
             if (y * y == x){
                 return 2*(y-1);
             }
