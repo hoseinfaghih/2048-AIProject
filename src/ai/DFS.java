@@ -21,13 +21,13 @@ public class DFS {
             goalFind = true;
             return;
         }
-        ArrayList<Node> children = startNode.successor();
+        ArrayList<Node> children = startNode.successor(false);
         for (Node child : children){
             if (!(hashtable.containsKey(child.hash()))){
                 search(child);
             }
         }
-        hashtable.remove(startNode.hash());
+        //hashtable.remove(startNode.hash());
         if (hashtable.isEmpty()){
             System.out.println("no solution");
             return;

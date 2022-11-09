@@ -3,27 +3,44 @@ package model;
 import core.Constants;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class Node implements Comparable<Node>{
     Board board;
     Node parent;
     Movement previousMovement;
-    public int cost;
+    private int cost;
+    public int search_mode; // 0 DFS , BFS , IDS
+                            // 1 UCS
+                            // 2 A* , IDA*
+                            // 3 GBFS
 
-    public Node(Board board, Node parent, Movement previousMovement , int cost) {
+    public Node(Board board, Node parent, Movement previousMovement , int cost , int search_mode) {
         this.parent = parent;
         this.board = board;
         this.previousMovement = previousMovement;
         this.cost = cost;
+        this.search_mode = search_mode;
     }
 
-    public ArrayList<Node> successor() {
-        ArrayList<Node> result = new ArrayList<Node>();
-        result.add(new Node(board.moveLeft(), this, Movement.LEFT,this.cost + 1));
-        result.add(new Node(board.moveRight(), this, Movement.RIGHT , this.cost + 3));
-        result.add(new Node(board.moveDown(), this, Movement.DOWN , this.cost + 5));
-        result.add(new Node(board.moveUp(), this, Movement.UP , this.cost + 7));
-        return result;
+    public ArrayList<Node> successor(boolean ucsFlag) {
+        if (ucsFlag){
+            ArrayList<Node> result = new ArrayList<Node>();
+            result.add(new Node(board.moveLeft(), this, Movement.LEFT,this.cost + 1,this.search_mode));
+            result.add(new Node(board.moveRight(), this, Movement.RIGHT , this.cost + 3,this.search_mode));
+            result.add(new Node(board.moveDown(), this, Movement.DOWN , this.cost + 5,this.search_mode));
+            result.add(new Node(board.moveUp(), this, Movement.UP , this.cost + 7,this.search_mode));
+            return result;
+        }
+        else{
+            ArrayList<Node> result = new ArrayList<Node>();
+            result.add(new Node(board.moveLeft(), this, Movement.LEFT,this.cost + 1,this.search_mode));
+            result.add(new Node(board.moveRight(), this, Movement.RIGHT , this.cost + 1,this.search_mode));
+            result.add(new Node(board.moveDown(), this, Movement.DOWN , this.cost + 1,this.search_mode));
+            result.add(new Node(board.moveUp(), this, Movement.UP , this.cost + 1,this.search_mode));
+            return result;
+        }
     }
 
     public void drawState(boolean ucsFlag) {
@@ -59,13 +76,31 @@ public class Node implements Comparable<Node>{
     }
 
     public int pathCost() {
-        //todo
-        return 1;
+        return this.cost;
     }
 
     public int heuristic() {
-        // TODO: 2/16/2022 implement heuristic function
-        return 0;
+        if(Board.mode==Constants.MODE_ADVANCE) {
+            ArrayList<Integer> numbers = new ArrayList<Integer>();
+            for (int i = 0; i < this.board.row; i++) {
+                for (int j = 0; j < this.board.col; j++) {
+                    numbers.add(this.board.cells[i][j]);
+                }
+            }
+            Collections.sort(numbers);
+            Collections.reverse(Arrays.asList(numbers));
+            int sum = 0;
+            for (int i = 0; i < numbers.size(); i++) {
+                sum += numbers.get(i);
+                if (sum >= this.board.goalValue) {
+                    return i;
+                }
+            }
+            return 99999;
+        }
+        else{
+            
+        }
     }
 
     public String hash() {
@@ -87,6 +122,17 @@ public class Node implements Comparable<Node>{
 
     @Override
     public int compareTo(Node node) {
-        return node.cost < this.cost ? 1 : -1;
+        if (node.search_mode == 0){
+            // whatever
+        }
+        if (node.search_mode == 1){
+            return node.pathCost() < this.pathCost() ? 1 : -1;
+        }
+        if (node.search_mode == 2){
+            return (node.cost + node.heuristic()) < (this.cost + this.heuristic()) ? 1 : -1;
+        }
+       else {
+            return node.heuristic() < this.heuristic() ? 1 : -1;
+        }
     }
 }

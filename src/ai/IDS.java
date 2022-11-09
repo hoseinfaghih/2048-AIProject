@@ -32,13 +32,13 @@ public class IDS {
             return;
         }
         hashtable.put(startNode.hash(),true);
-        ArrayList<Node> children = startNode.successor();
+        ArrayList<Node> children = startNode.successor(false);
         for (Node child : children){
             if (!(hashtable.containsKey(child.hash())) && depth+1 <= maxDepth){
                 dfsWithDepth(child,depth+1,maxDepth);
             }
         }
-        hashtable.remove(startNode.hash());
+        hashtable.remove(startNode.hash()); // Optional
     }
     public void printResult (Node node, int depthCounter){
         if (node.getParent() == null) {

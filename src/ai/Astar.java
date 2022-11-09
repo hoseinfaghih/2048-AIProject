@@ -7,25 +7,24 @@ import java.util.Hashtable;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class UCS {
-
-    public void search (Node startNode){
-        Queue <Node> fringe = new PriorityQueue<>();
-        Hashtable<String,Boolean> hashtable = new Hashtable<>();
+public class Astar {
+    public void search (Node startNode) {
+        Queue<Node> fringe = new PriorityQueue<>();
+        Hashtable<String, Boolean> hashtable = new Hashtable<>();
 
         fringe.add(startNode);
-        hashtable.put(startNode.hash(),true);
+        hashtable.put(startNode.hash(), true);
 
-        while (!fringe.isEmpty()){
+        while (!fringe.isEmpty()) {
             Node temp = fringe.poll();
-            if (temp.isGoal()){
+            if (temp.isGoal()) {
                 System.out.println("you win!");
-                printResult(temp, 0,temp.pathCost());
+                printResult(temp, 0, temp.pathCost());
                 return;
             }
             hashtable.remove(temp.hash());
 
-            ArrayList<Node> children = temp.successor(true);
+            ArrayList<Node> children = temp.successor(false);
             for (Node child : children) {
                 if (!(hashtable.containsKey(child.hash()))) {
                     fringe.add(child);
@@ -34,7 +33,6 @@ public class UCS {
             }
         }
     }
-
     public void printResult (Node node, int depthCounter,int costpass){
         if (node.getParent() == null) {
             System.out.println("problem solved at a depth of  : " + depthCounter + "   \nand cost of   : " + costpass);
