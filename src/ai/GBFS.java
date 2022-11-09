@@ -7,7 +7,8 @@ import java.util.Hashtable;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class Astar {
+
+public class GBFS {
     public void search (Node startNode) {
         Queue<Node> fringe = new PriorityQueue<>();
         Hashtable<String, Boolean> hashtable = new Hashtable<>();

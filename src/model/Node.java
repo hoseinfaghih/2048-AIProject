@@ -5,6 +5,7 @@ import core.Constants;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.lang.Math;
 
 public class Node implements Comparable<Node>{
     Board board;
@@ -81,6 +82,22 @@ public class Node implements Comparable<Node>{
 
     public int heuristic() {
         if(Board.mode==Constants.MODE_ADVANCE) {
+            int minimum = 9999999;
+            ArrayList<Integer> numbers = new ArrayList<Integer>();
+            for (int i = 0; i < this.board.row; i++) {
+                for (int j = 0; j < this.board.col; j++) {
+                    minimum = Math.min(minimum,this.board.cells[i][j]);
+                }
+            }
+            int x = this.board.goalValue;
+            int result = 0;
+            while (result < this.board.goalValue){
+                result++;
+                x*=2;
+            }
+            return result;
+        }
+        else{
             ArrayList<Integer> numbers = new ArrayList<Integer>();
             for (int i = 0; i < this.board.row; i++) {
                 for (int j = 0; j < this.board.col; j++) {
@@ -88,18 +105,24 @@ public class Node implements Comparable<Node>{
                 }
             }
             Collections.sort(numbers);
-            Collections.reverse(Arrays.asList(numbers));
-            int sum = 0;
-            for (int i = 0; i < numbers.size(); i++) {
+            int sum = 0,x = 0;
+            for (int i = numbers.size() - 1 , j = 1; i >= 0; i--,j++) {
                 sum += numbers.get(i);
                 if (sum >= this.board.goalValue) {
-                    return i;
+                    x = j;
+                    break;
                 }
             }
-            return 99999;
-        }
-        else{
-            
+            int y = (int)Math.sqrt(x);
+            if (y * y == x){
+                return 2*(y-1);
+            }
+            else if (Math.abs(x - (y*y)) < Math.abs(x - ((y+1)*(y+1)))  ){
+                return (2*y) - 1;
+            }
+            else {
+                return 2*y;
+            }
         }
     }
 
@@ -129,7 +152,7 @@ public class Node implements Comparable<Node>{
             return node.pathCost() < this.pathCost() ? 1 : -1;
         }
         if (node.search_mode == 2){
-            return (node.cost + node.heuristic()) < (this.cost + this.heuristic()) ? 1 : -1;
+            return (node.pathCost() + node.heuristic()) < (this.pathCost() + this.heuristic()) ? 1 : -1;
         }
        else {
             return node.heuristic() < this.heuristic() ? 1 : -1;

@@ -30,20 +30,39 @@ public class main {
         Mapper mapper = new Mapper();
         int[][] cells = mapper.createCells(board, rows, columns);
         Board gameBoard = mapper.createBoard(cells, goalValue, rows, columns);
-        Board.mode = Constants.MODE_ADVANCE;
+        Board.mode = Constants.MODE_NORMAL;
 
+        int sum = 0;
         if (Board.mode == Constants.MODE_ADVANCE){
             for (int i = 0 ; i < rows ; i++){
                 for (int j = 0 ; j < columns ; j++){
                     int x = cells[i][j];
-                    if ( !( (x>0) && ((x & (x-1)) == 0)) ){
-                        System.out.println("no solution !");
+                    sum += x;
+                    if ( ( (x>0) && ((x & (x-1)) != 0)) ){
+                        System.out.println("no solution !1");
                         return;
                     }
                 }
             }
 
             if ( !( (goalValue>0) && ((goalValue & (goalValue-1)) == 0)) ){
+                System.out.println("no solution !2");
+                return;
+            }
+
+            if (sum < goalValue) {
+                System.out.println("no solution !3");
+                return;
+            }
+        }
+        if (Board.mode == Constants.MODE_NORMAL){
+            for (int i = 0 ; i < rows ; i++){
+                for (int j = 0 ; j < columns ; j++){
+                    int x = cells[i][j];
+                    sum += x;
+                }
+            }
+            if (sum < goalValue) {
                 System.out.println("no solution !");
                 return;
             }
@@ -87,6 +106,19 @@ public class main {
 //        Node start = new Node (gameBoard,null,NONE,0,2);
 //        Astar astar = new Astar();
 //        astar.search(start);
+
+
+//     For GBGS uncomment this :
+//        Node start = new Node (gameBoard,null,NONE,0,3);
+//        GBFS gbfs = new GBFS();
+//        gbfs.search(start);
+
+
+//     For IDA* uncomment this :
+        Node start = new Node (gameBoard,null,NONE,0,2)   ;
+        int estimatedCutOff = 3 * (rows+columns);
+        IDAstar idAstar = new IDAstar();
+        idAstar.search(start,estimatedCutOff);
 
     }
 }
