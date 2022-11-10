@@ -5,7 +5,7 @@ import model.Node;
 import java.util.Hashtable;
 import java.util.ArrayList;
 
-public class IDS {
+public class IDS { // recursive dfs = dfs with LIFO stack
     boolean goalFind = false;
     Hashtable<String,Boolean> hashtable = new Hashtable<>();
     public void search (Node startNode , int cutOff){
