@@ -30,7 +30,7 @@ public class main {
         Mapper mapper = new Mapper();
         int[][] cells = mapper.createCells(board, rows, columns);
         Board gameBoard = mapper.createBoard(cells, goalValue, rows, columns);
-        Board.mode = Constants.MODE_NORMAL; //Change this to change to mode
+        Board.mode = Constants.MODE_ADVANCE; //Change this to change to mode
 
         int sum = 0;
         if (Board.mode == Constants.MODE_ADVANCE){

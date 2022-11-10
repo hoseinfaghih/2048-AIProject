@@ -86,14 +86,23 @@ public class Node implements Comparable<Node>{
             ArrayList<Integer> numbers = new ArrayList<Integer>();
             for (int i = 0; i < this.board.row; i++) {
                 for (int j = 0; j < this.board.col; j++) {
-                    minimum = Math.min(minimum,this.board.cells[i][j]);
+                    numbers.add(this.board.cells[i][j]);
+                    //minimum = Math.min(minimum,this.board.cells[i][j]);
                 }
             }
-            int x = 1;
+            Collections.sort(numbers);
+            int sum = 0;
+            for (int i = numbers.size() - 1 ; i >= 0;i--){
+                sum += numbers.get(i);
+                minimum = Math.min(minimum,numbers.get(i));
+                if (sum >= this.board.goalValue){
+                    break;
+                }
+            }
             int result = 0;
-            while (x < this.board.goalValue){
+            while (minimum < this.board.goalValue){
                 result++;
-                x*=2;
+                minimum*=2;
             }
             return result;
         }
